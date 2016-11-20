@@ -1,0 +1,9 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "editor.fontSize": 16.5,
+    "editor.tabCompletion": true,
+    "html.format.indentInnerHtml": true,
+    "editor.renderIndentGuides": true,
+    "html.format.indentHandlebars": true,
+    "editor.tabSize": 4
+}
