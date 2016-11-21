@@ -85,3 +85,68 @@ try {
 } catch (error) {
   console.log("Something went wrong: " + error);
 }
+
+// Cleaning up after exceptions
+var context = null;
+
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  var result = body();
+  context = oldContext;
+  return result;
+}
+
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  try {
+    return body();
+  }
+  finally {
+    context = oldContext;
+  }
+}
+
+try {
+  withContext(5, () => {
+    if (context < 10)
+      throw new Error("Not enough context!");
+  });
+} catch(e){
+  console.log("Ignoring: " + e);
+}
+console.log(context);
+
+try { 
+  withException(5, () => {
+    if (context){
+      // Something
+    }
+  });
+}
+catch(err){
+// Something
+}
+
+function InputError(message) {
+  this.message = message;
+  this.stack = (new Error()).stack;
+}
+InputError.prototype = Object.create(Error.prototype);
+InputError.prototype.name = "InputError";
+
+function AssertionFailed(message) {
+  this.message = message;
+}
+AssertionFailed.prototype = Object.create(Error.prototype);
+
+function assert(test, message) {
+  if (!test)
+    throw new AssertionFailed(message);
+}
+
+function lastElement(array) {
+  assert(array.length > 0, "empty array in lastElement");
+  return array[array.length - 1];
+}
